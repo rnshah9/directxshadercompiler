@@ -1,0 +1,5 @@
+project: rnshah9/directxshadercompiler
+target: directxshadercompiler
+
+cmds:
+  - cmd: /repo/build/bin/dxc -T ps_6_0 @@

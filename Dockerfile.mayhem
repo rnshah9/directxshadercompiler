@@ -1,0 +1,9 @@
+FROM --platform=linux/amd64 ubuntu:22.04
+
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake ninteractive apt-get install -y ninja-build python-is-python3 git
+
+COPY . /repo
+WORKDIR /repo/build
+RUN cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -C ../cmake/caches/PredefinedParams.cmake
+RUN ninja
