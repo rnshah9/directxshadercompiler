@@ -2,4 +2,4 @@ project: directxshadercompiler
 target: dxc
 
 cmds:
-  - cmd: /dxc -T ps_6_0 @@
+  - cmd: /repo/build/bin/dxc -T ps_6_0 @@
