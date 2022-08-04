@@ -98,6 +98,9 @@ TEST_F(FileTest, TypeCBufferIncludingResource) {
 TEST_F(FileTest, ConstantBufferType) {
   runFileTest("type.constant-buffer.hlsl");
 }
+TEST_F(FileTest, ConstantBufferTypeMultiDimensionalArray) {
+  runFileTest("type.constant-buffer.multiple-dimensions.hlsl");
+}
 TEST_F(FileTest, BindlessConstantBufferArrayType) {
   runFileTest("type.constant-buffer.bindless.array.hlsl", Expect::Success,
               /*legalization*/ false);
@@ -1083,13 +1086,21 @@ TEST_F(FileTest, ByteAddressBufferTemplatedStoreStruct) {
   runFileTest("method.byte-address-buffer.templated-store.struct.hlsl");
 }
 TEST_F(FileTest, ByteAddressBufferTemplatedStoreStruct2) {
-  runFileTest("method.byte-address-buffer.templated-store.struct.hlsl");
+  runFileTest("method.byte-address-buffer.templated-store.struct2.hlsl");
+}
+TEST_F(FileTest, ByteAddressBufferTemplatedStoreMatrix) {
+  runFileTest("method.byte-address-buffer.templated-store.matrix.hlsl");
 }
 TEST_F(FileTest, ByteAddressBufferGetDimensions) {
   runFileTest("method.byte-address-buffer.get-dimensions.hlsl");
 }
 TEST_F(FileTest, RWByteAddressBufferAtomicMethods) {
   runFileTest("method.rw-byte-address-buffer.atomic.hlsl");
+}
+
+// For `-fspv-use-legacy-matrix-buffer-order`
+TEST_F(FileTest, SpvUseLegacyMatrixBufferOrder) {
+  runFileTest("spv.use-legacy-buffer-matrix-order.hlsl");
 }
 
 TEST_F(FileTest, InitializeListRWByteAddressBuffer) {
@@ -2012,6 +2023,10 @@ TEST_F(FileTest, VulkanRegisterBinding1to1MappingInvalidBindNo) {
 TEST_F(FileTest, VulkanRegisterBinding1to1MappingMissingAttr) {
   runFileTest("vk.binding.cl.register.missing-attr.hlsl", Expect::Failure);
 }
+TEST_F(FileTest, VulkanRegisterBinding1to1MappingMissingBindGlobals) {
+  runFileTest("vk.binding.cl.register.missing-bind-globals.hlsl",
+              Expect::Failure);
+}
 TEST_F(FileTest, VulkanRegisterBinding1to1MappingMissingCLOption) {
   runFileTest("vk.binding.cl.register.missing-cl.hlsl", Expect::Failure);
 }
@@ -2654,6 +2669,39 @@ TEST_F(FileTest, VulkanShadingRateVs) {
 TEST_F(FileTest, VulkanShadingRatePs) {
   runFileTest("vk.shading-rate.ps.hlsl");
 }
+// Tests for [[vk::early_and_late_tests]]
+TEST_F(FileTest, VulkanEarlyAndLateTests) {
+  runFileTest("vk.early-and-lates-tests.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsDepthUnchanged) {
+  runFileTest("vk.early-and-lates-tests.depth-unchanged.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefUnchangedFront) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-unchanged-front.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefGreaterEqualFront) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-greater-equal-front.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefLessEqualFront) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-less-equal-front.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefUnchangedBack) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-unchanged-back.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefGreaterEqualBack) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-greater-equal-back.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefLessEqualBack) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-less-equal-back.hlsl");
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefErrorFront) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-error-front.hlsl",
+              Expect::Failure);
+}
+TEST_F(FileTest, VulkanEarlyAndLateTestsStencilRefErrorBack) {
+  runFileTest("vk.early-and-lates-tests.stencil-ref-error-back.hlsl",
+              Expect::Failure);
+}
 
 // === MeshShading NV examples ===
 TEST_F(FileTest, MeshShadingNVMeshTriangle) {
@@ -3125,5 +3173,17 @@ float4 PSMain(float4 color : COLOR) : SV_TARGET { return color; }
 }
 
 TEST_F(FileTest, RenameEntrypoint) { runFileTest("fspv-entrypoint-name.hlsl"); }
+
+TEST_F(FileTest, PrintAll) { runFileTest("fspv-print-all.hlsl"); }
+
+TEST_F(FileTest, SpirvOptFd) {
+  runFileTest("spirv.opt.fd.hlsl", Expect::Failure);
+}
+TEST_F(FileTest, SpirvOptFre) {
+  runFileTest("spirv.opt.fre.hlsl", Expect::Failure);
+}
+TEST_F(FileTest, SpirvOptQStripReflect) {
+  runFileTest("spirv.opt.qstripreflect.hlsl", Expect::Failure);
+}
 
 } // namespace
