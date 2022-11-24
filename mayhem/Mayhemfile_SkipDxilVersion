@@ -1,0 +1,5 @@
+project: directxshadercompiler
+target: skipdxilversion
+
+cmds:
+  - cmd: /repo/build/bin/dxc -T ps_6_0 @@
