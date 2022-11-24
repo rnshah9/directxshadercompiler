@@ -8,7 +8,7 @@ WORKDIR /repo/build
 RUN cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release -C ../cmake/caches/PredefinedParams.cmake
 RUN ninja
 
-RUN clang++ /repo/mayhem/fuzz_SkipDxilVersion.cpp -fsanitize=fuzzer,address -L /repo/build/lib/ -lHLSLTestLib -lgtest -lLLVMDxcSupport -lLLVMOption -lLLVMSupport -o /fuzz
+RUN clang++ /repo/mayhem/fuzz_SkipDxilVersion.cpp -fsanitize=fuzzer,address -L /repo/build/lib/ -lHLSLTestLib -lgtest -lLLVMDxcSupport -lLLVMOption -lLLVMSupport -ltinfo -o /fuzz
 
 FROM ubuntu:22.04 as package
 COPY --from=builder /repo/build /repo/build

@@ -2,4 +2,5 @@ project: directxshadercompiler
 target: skipdxilversion
 
 cmds:
-  - cmd: /repo/build/bin/dxc -T ps_6_0 @@
+  - cmd: /fuzz_SkipDxilVersion
+    libfuzzer: true
